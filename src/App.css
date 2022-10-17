@@ -1,0 +1,94 @@
+/* GOOGLE FONTS */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;900&display=swap");
+/* VARIABLES CSS */
+:root {
+  --header-height: 3.5rem;
+  /* Colors */
+  --hue: 14;
+  --first-color: hsl(var(--hue), 91%, 54%);
+  --first-color-alt: hsl(var(--hue), 91%, 50%);
+  --title-color: hsl(var(--hue), 4%, 100%);
+  --text-color: hsl(var(--hue), 4%, 85%);
+  --text-color-light: hsl(var(--hue), 4%, 55%);
+  /*Red gradient*/
+  --body-color: linear-gradient(
+    90deg,
+    hsl(338, 67%, 11%) 0%,
+    hsl(281, 63%, 10%) 100%
+  );
+  --container-color: linear-gradient(
+    136deg,
+    hsl(338, 67%, 11%) 0%,
+    hsl(281, 63%, 10%) 100%
+  );
+  --sub: #ff5b79;
+  /* Font and typography */
+  --body-font: "Poppins", sans-serif;
+
+}
+
+/* BASE */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+html {
+  scroll-behavior: smooth;
+  color: white;
+}
+body {
+  font-family: var(--body-font);
+
+  font-size: var(--normal-font-size);
+  transition: 0.3s;
+}
+
+.section1 {
+  background: rgb(0,4,36);
+  background: linear-gradient(158deg, rgba(0,4,36,1) 0%, rgba(121,9,71,1) 52%, rgba(255,222,0,1) 100%);
+ 
+}
+
+
+.steps {
+  padding-top: 10px;
+}
+.steps:hover {
+  cursor: pointer;
+  
+}
+
+.steps .card-body:hover {
+  box-shadow: 0px 0px 1px gray !important;
+  border-radius: 10px;
+  background-color: rgba(128, 128, 128, 0.021) !important;
+}
+
+
+/*  */
+
+
+
+/* wallet */
+
+
+.wallet_btn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: rgb(15, 15, 50);
+  color: white;
+  border-radius: 10px;
+}
+.wallet_btn:hover {
+  transform: scale(1.02);
+}
+
+.wallet_btn:active {
+  transform: scale(1)
+}
+
+.wallet_img {
+  width: 50px;
+}
