@@ -14,7 +14,7 @@ export const WalletConnect = new WalletConnectConnector({
   },
   infuraId: "7a93b9ef35c1445482ba26cc4b8c16f0",
   bridge: "https://bridge.walletconnect.org",
-  chainId: 137,
+  chainId: 4,
   qrcode: true,
   pollingInterval: 12000,
 })

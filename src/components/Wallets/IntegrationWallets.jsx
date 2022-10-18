@@ -48,32 +48,30 @@ export function IntegrationWallets() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const {provider, setProvider } = useContextAPI()
+  const {setSigner , setMessage} = useContextAPI()
   const { active, activate , library , account } = useWeb3React();
 
-  console.log('account' , account);
-
-  console.log('provider' , provider);
-
-  // useMemo(() => {
-  //   if (library !== undefined) {
-  //     setProvider(library.getSigner(account))
-  //   }
-  // }, [library, account])
+  useMemo(() => {
+    if (library !== undefined) {
+      setSigner(library.getSigner(account))
+    }
+  }, [library, account])
 
 
   async function conToMetaMask() {
-    console.log('click');
     if (typeof window.ethereum == "undefined") {
-      alert("MetaMask is Not installed!");
+      setMessage({message: "MetaMask is Not installed!", color: "danger" , isMessage: true})
+      // alert("MetaMask is Not installed!");
+
     }else {
       try {
         setError();
         await changeNetwork({ networkName: 'polygon', setError });
         await activate(Injected);
-        console.log('connected');
+        setMessage({message: "Wallet Connected", color: "success" , isMessage: true})
       } catch (error) {
         console.error('error');
+        setMessage({message: "Wallet Connection Error.", color: "danger" , isMessage: true})
 
         console.error(error);
       }
@@ -81,7 +79,9 @@ export function IntegrationWallets() {
   }
   async function conToWalletConnect() {
     try {
+      // await changeNetwork({ networkName: 'polygon', setError });
       await activate(WalletConnect);
+      setMessage({message: "Wallet Connected", color: "success" , isMessage: true})
     } catch (error) {
       console.log(error);
     }
@@ -90,6 +90,7 @@ export function IntegrationWallets() {
 
   return (
     <>
+
       <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={handleShow}>
         Connect Wallet
       </button>
@@ -101,14 +102,10 @@ export function IntegrationWallets() {
         <Modal.Body>
           <div className="container-fluid">
 
-            <div
-              className={`wallet_btn row  py-3 mx-1 px-4 my-2`}
-              onClick={conToMetaMask}
-            >
+            <div className={`wallet_btn row  py-3 mx-1 px-4 my-2`} onClick={conToMetaMask}>
               <div className="col text-start fs-5">MetaMask</div>
               <div className="col text-end">
-                <img
-                  className={`wallet_img`}
+                <img className={`wallet_img`}
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/1200px-MetaMask_Fox.svg.png"
                   alt="Metamask"
                 />
@@ -116,7 +113,7 @@ export function IntegrationWallets() {
               </div>
             </div>
 
-            {/* <div
+            <div
               className={`wallet_btn row  py-3 mx-1 px-4 my-2`}
               onClick={conToWalletConnect}
             >
@@ -128,7 +125,7 @@ export function IntegrationWallets() {
                   alt="Connect"
                 />
               </div>
-            </div> */}
+            </div>
       
           </div>
         </Modal.Body>

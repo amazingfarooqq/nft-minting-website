@@ -9,10 +9,6 @@ function Header({ page }) {
 
     const { active, account, deactivate } = useWeb3React()
 
-    const data = useContextAPI()
-
-    console.log(data);
-
     const location = useLocation()
     if (location.pathname == '/signup' || location.pathname == '/account' || location.pathname == '/affiliate') {
         return (

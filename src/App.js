@@ -6,10 +6,16 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Signup from './components/Signup/Signup';
 import AccountPage from './components/AccountPage/AccountPage';
 import Affiliate from './components/Affiliate/Affiliate';
+import { useContextAPI } from './features/contextapi';
+import MessageBox from "./components/MessageBox/MessageBox"
 
 function App() {
+  const { message, setMessage } = useContextAPI()
   return (
     <div className="App">
+      {message.isMessage &&
+        <MessageBox message={message} setMessage={setMessage} />
+      }
 
       <BrowserRouter>
         <Routes>
@@ -19,7 +25,7 @@ function App() {
           <Route path="/affiliate" element={<Affiliate />} />
         </Routes>
       </BrowserRouter>
-      
+
     </div>
   );
 }
