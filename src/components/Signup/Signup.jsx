@@ -1,61 +1,76 @@
 import { useWeb3React } from '@web3-react/core'
 import { ethers, utils } from 'ethers';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useContextAPI } from '../../features/contextapi';
 import Header from '../Header/Header'
 import { IntegrationWallets } from '../Wallets/IntegrationWallets'
 
-const signMessage = async ({ setMessage, message , signer}) => {
-    try {
-      console.log({ message });
-      if (!window.ethereum)
-        throw new Error("No crypto wallet found. Please install it.");
-  
-    //   const hexMessage = utils.hexlify(utils.toUtf8Bytes(message))
-      const signature = await signer.signMessage(message);
-
-      const address = await signer.getAddress();
-        console.log({
-            message,
-            signature,
-            address
-        })
-      return {
-        message,
-        signature,
-        address
-      };
-    } catch (err) {
-        console.log(err)
-      setMessage({message: "Error processing.." , color: "danger" , isMessage: true});
-    }
-  };
-  
 
 const Signup = () => {
     const { active, account } = useWeb3React()
-
-    const {setMessage , signer} = useContextAPI()
-
     const [userName, setUserName] = useState('')
-    const [signatures, setSignatures] = useState([]);
+
+    const [userInputStepDone, setUserInputStepDone] = useState(false)
+    const [userAddressStepDone, setUserAddressStep] = useState(false)
+
+    const { registerToCollection, setMessage, usersData , fetchuser} = useContextAPI()
+
 
     const usernamefunc = async () => {
-        // setMessage();
-        // setUsernameExist(true)
+
+        if (!userName) {
+            setMessage({ message: "Invalid Username!", isMessage: true, color: "danger" })
+        } else {
+
+            let isUserExistInDatabase = false;
+
+            usersData?.map(item => {
+                if (item.userName === userName) {
+                    isUserExistInDatabase = true
+                }
+            })
+
+            if (!isUserExistInDatabase) {
+                setUserInputStepDone(true)
+            } else {
+                setMessage({ message: "Username Already Exist!", isMessage: true, color: "danger" })
+            }
+        }
+    }
+
+    const addressfunc = async () => {
+
+        if (userName && account) {
+            let userAddressExistInDatabase = false;
+
+            usersData?.map(item => {
+                if (item.owneraddress === account) {
+                    userAddressExistInDatabase = true
+                }
+            })
+
+            if (!userAddressExistInDatabase) {
+                setUserAddressStep(true)
+            } else {
+                setMessage({ message: "Address Already Exists!", isMessage: true, color: "danger" })
+            }
+        }
 
     }
 
     const signup = async () => {
-        const sig = await signMessage({
-            setMessage,
-            message: userName,
-            signer
-          });
-          if (sig) {
-            setSignatures([...signatures, sig]);
-          }
+        if(!userName){
+            setUserInputStepDone(false)
+        }else if(!account){
+            setUserAddressStep(false)
+        }else {
+            registerToCollection(`${userName}-${account}`, { userName, owneraddress: account })
+            fetchuser()
+        }
+
     }
+    
 
     return (
 
@@ -71,13 +86,13 @@ const Signup = () => {
 
                         <div className="row px-4 py-2  rounded text-dark " style={{ backgroundColor: "rgba(255,0,0,.15)" }}>
                             <ol className='py-0 my-0'>
-                                <li className={`${!userName && 'fw-bold'}`}>Please input user name. {userName && `username: ${userName}`}</li>
-                                <li className={`${userName && !account && 'fw-bold'}`}>Please connect your wallet.</li>
-                                <li className={`${userName && account && 'fw-bold'}`}>Click the continue.</li>
+                                <li className={`${!userInputStepDone && 'fw-bold'}`}>Please input user name. {userName && `username: ${userName}`}</li>
+                                <li className={`${userInputStepDone && !account && !userAddressStepDone && 'fw-bold'}`}>Please connect your wallet.</li>
+                                <li className={`${userInputStepDone && active && userAddressStepDone && 'fw-bold'}`}>Click the continue.</li>
                             </ol>
                         </div>
 
-                        {!userName &&
+                        {!userInputStepDone && !userAddressStepDone &&
                             <>
                                 <div className='py-2'>
                                     <div className='text-start'>Username</div>
@@ -97,7 +112,7 @@ const Signup = () => {
                                 </div>
                             </>
                         }
-                        {userName &&
+                        {userInputStepDone && !userAddressStepDone &&
 
                             <>
                                 <div className='py-2'>
@@ -107,14 +122,21 @@ const Signup = () => {
 
                                 <div className='text-start mt-2'>
                                     {active ?
-                                        <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={signup}>
-                                            Sign up
+                                        <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={addressfunc}>
+                                            Next Step
                                         </button>
                                         : <IntegrationWallets />
                                     }
                                 </div>
 
                             </>
+                        }
+
+
+                        {userInputStepDone && userAddressStepDone &&
+                            <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={signup}>
+                                Sign up
+                            </button>
                         }
 
 

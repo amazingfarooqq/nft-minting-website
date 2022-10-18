@@ -1,14 +1,8 @@
 import { useWeb3React } from "@web3-react/core";
 import { useMemo, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import {
-  Injected,
-  WalletConnect,
-} from "./Connectors";
+import {Injected,WalletConnect } from "./Connectors";
 import { useContextAPI } from "../../features/contextapi";
-
-
-
 
 const networks = {
   polygon: {

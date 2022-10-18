@@ -9,8 +9,18 @@ function Header({ page }) {
 
     const { active, account, deactivate } = useWeb3React()
 
+    const { user , setUser } = useContextAPI()
+
     const location = useLocation()
-    if (location.pathname == '/signup' || location.pathname == '/account' || location.pathname == '/affiliate') {
+
+
+    const disconnectwallet = () => {
+        deactivate()
+        setUser()
+    }
+
+
+    if (location.pathname !== '/') {
         return (
             <Navbar collapseOnSelect expand="lg" variant="light" bg="light" className=" px-md-5  py-4" style={{ backgroundColor: "transparent !important" }}>
                 <div className="container-fluid">
@@ -35,13 +45,16 @@ function Header({ page }) {
                         </Nav>
                         <Nav>
                             {active ?
-                                <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={() => deactivate()}>
-                                    {`${account?.slice(0,4)}...${account?.slice(-4)}`}
+                                <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={disconnectwallet}>
+                                    {`${account?.slice(0, 4)}...${account?.slice(-4)}`}
                                 </button> :
                                 <IntegrationWallets />
                             }
-                            <Link to="/signup" className="btn btn-light  m-1 rounded-pill fs-5">Sign up</Link>
+                            {user ?
+                                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" className="rounded-circle" style={{ width: "50px" }} alt="Avatar" /> :
+                                <Link to="/signup" className="btn btn-light  m-1 rounded-pill fs-5">Sign up</Link>
 
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </div>
@@ -68,14 +81,17 @@ function Header({ page }) {
 
                         </Nav>
                         <Nav>
-                            {active ?
-                                <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={() => deactivate()}>
-                                    {`${account?.slice(0,4)}...${account?.slice(-4)}`}
+                        {active ?
+                                <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={disconnectwallet}>
+                                    {`${account?.slice(0, 4)}...${account?.slice(-4)}`}
                                 </button> :
                                 <IntegrationWallets />
                             }
-                            <Link to="/signup" className="btn btn-light  m-1 rounded-pill fs-5">Sign up</Link>
+                            {user ?
+                                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" className="rounded-circle" style={{ width: "50px" }} alt="Avatar" /> :
+                                <Link to="/signup" className="btn btn-light  m-1 rounded-pill fs-5">Sign up</Link>
 
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </div>
