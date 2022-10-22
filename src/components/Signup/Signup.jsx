@@ -19,7 +19,8 @@ const Signup = () => {
 
     const usernamefunc = async () => {
 
-        if (!userName) {
+        
+        if (!userName || userName.indexOf(" ") >= 0) {
             setMessage({ message: "Invalid Username!", isMessage: true, color: "danger" })
         } else {
 
@@ -41,7 +42,7 @@ const Signup = () => {
 
     const addressfunc = async () => {
 
-        if (userName && account) {
+        if (userName && userName.indexOf(" ") < 0 && account) {
             let userAddressExistInDatabase = false;
 
             usersData?.map(item => {
@@ -60,7 +61,7 @@ const Signup = () => {
     }
 
     const signup = async () => {
-        if(!userName){
+        if(!userName || userName.indexOf(" ") >= 0){
             setUserInputStepDone(false)
         }else if(!account){
             setUserAddressStep(false)
@@ -68,7 +69,6 @@ const Signup = () => {
             registerToCollection(`${userName}-${account}`, { userName, owneraddress: account })
             fetchuser()
         }
-
     }
     
 

@@ -22,7 +22,7 @@ const AccountPage = () => {
 
                 <div className="col-10">
                   <div style={{ fontWeight: "500" }} >User name</div>
-                  <div type="text" className='form-control form-control-lg  m-0' >{user?.userName}</div>
+                  <div type="text" className='form-control form-control-lg  m-0' style={{backgroundColor: "rgba(0,0,255,0.2)"}}>{user?.userName}</div>
                 </div>
 
                 <div className="col-10 mt-2 ">
@@ -74,81 +74,6 @@ const AccountPage = () => {
 
               </div>
 
-
-              {/* <div className="card" style={{ borderRadius: 15 }}>
-                  <div className="card-body">
-                    <div className="row align-items-center pt-4 pb-3">
-                      <div className="col-md-3 ps-5">
-                        <h6 className="mb-0">User name</h6>
-                      </div>
-                      <div className="col-md-9 pe-5">
-                        <div className="form-control form-control-lg" style={{backgroundColor: "rgba(237, 231, 225, 2)"}}> 
-                          {user?.userName} 
-                        </div>
-                      </div>
-                    </div>
-                    <hr className="mx-n3" />
-                    <div className="row align-items-center py-3">
-                      <div className="col-md-3 ps-5">
-                        <h6 className="mb-0">YEM Pernum</h6>
-                      </div>
-                      <div className="col-md-9 pe-5">
-                        <input
-                          type="number"
-                          className="form-control form-control-lg"
-                          placeholder="EX: 0000"
-                        />
-                      </div>
-                    </div>
-                    <hr className="mx-n3" />
-                    <div className="row align-items-center py-3">
-                      <div className="col-md-3 ps-5">
-                        <h6 className="mb-0">Email address</h6>
-                      </div>
-                      <div className="col-md-9 pe-5">
-                        <input
-                          type="email"
-                          className="form-control form-control-lg"
-                          placeholder="example@example.com"
-                        />
-                      </div>
-                    </div>
-                    <hr className="mx-n3" />
-                    <div className="row align-items-center py-3">
-                      <div className="col-md-3 ps-5">
-                        <h6 className="mb-0">YEM Balance</h6>
-                      </div>
-                      <div className="col-md-9 pe-5">
-                        <input
-                          type="email"
-                          className="form-control form-control-lg"
-                          placeholder="example@example.com"
-                        />
-                      </div>
-                    </div>
-                    <hr className="mx-n3" />
-                    <div className="row align-items-center py-3">
-                      <div className="col-md-3 ps-5">
-                        <h6 className="mb-0">Matic Balance</h6>
-                      </div>
-                      <div className="col-md-9 pe-5">
-                        <input
-                          type="email"
-                          className="form-control form-control-lg"
-                          placeholder="example@example.com"
-                        />
-                      </div>
-                    </div>
-                    <hr className="mx-n3" />
-              
-              
-                    <div className="px-5 py-4">
-                      <button  className="btn btn-primary btn-lg">
-                        bUTTON
-                      </button>
-                    </div>
-                  </div>
-                </div> */}
             </div>
           </div>
         </div>
