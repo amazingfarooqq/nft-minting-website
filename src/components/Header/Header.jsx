@@ -23,7 +23,7 @@ function Header({ page }) {
 
 
     return (
-        <Navbar collapseOnSelect expand="lg" className=" px-md-5  py-4" style={{ backgroundColor: "transparent !important" }}>
+        <Navbar collapseOnSelect expand="lg" className=" px-md-5 py-4" style={{ backgroundColor: "transparent !important" }}>
             <div className="container-fluid">
 
                 <Navbar.Brand href="#home" className={`fs-2 ${location.pathname !== '/' ? "text-dark" : "text-light"}`}>NFT Minting</Navbar.Brand>
