@@ -14,7 +14,7 @@ const AccountPage = () => {
         setcopyText('')
       }, 3000);
       } catch (err) {
-        setcopyText(`Failed to copy`)
+        setcopyText(`Failed to copy : ${e.target.innerText}`)
       }
     }
 
@@ -55,22 +55,6 @@ const AccountPage = () => {
 
                 </div>
 
-
-                {/* <div className="col-11 col-lg-10 mt-2 ">
-                  <div style={{ fontWeight: "500" }}>Email</div>
-
-                  <div className='row'>
-                    <div className="col-12">
-                      <div className="input-group">
-                        <input type="email" className="form-control fs-15" placeholder='Email:' />
-                        <div className="input-group-append">
-                          <span className="input-group-text btn btn-primary rounded-pill m-1 fs-5 px-4">Save</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div> */}
 
                 <div className="col-11 col-lg-10 mt-3">
                   <div style={{ fontWeight: "500" }} >YEM Balance</div>
