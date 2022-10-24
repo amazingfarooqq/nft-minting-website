@@ -11,7 +11,7 @@ function Header({ page }) {
 
     const { active, account, deactivate } = useWeb3React()
 
-    const { user, setUser } = useContextAPI()
+    const { user, setUser  } = useContextAPI()
 
     const location = useLocation()
 
@@ -36,11 +36,13 @@ function Header({ page }) {
                                     ${location.pathname !== '/' ? "text-dark" : "text-light"}
                                     ${location.pathname == '/' && "btn-secondary"}`}
                                 style={{ textDecoration: "none" }}>Home</Link>
-                            <Link to="/affiliate"
-                                className={`mx-1 btn rounded-pill 
+                            {location.pathname == '/'   &&
+                                <a href="#affiliateSection"
+                                    className={`mx-1 btn rounded-pill 
                                     ${location.pathname !== '/' && location.pathname !== '/affiliate' ? "text-dark" : "text-light"}
                                     ${location.pathname == '/affiliate' && "btn-secondary text-light"}`}
-                                style={{ textDecoration: "none" }}> Affiliate </Link>
+                                    style={{ textDecoration: "none" }}> Affiliate </a>
+                            }
                             {user &&
                                 <Link to="/account"
                                     className={`mx-1 btn rounded-pill 
@@ -61,25 +63,22 @@ function Header({ page }) {
                             <IntegrationWallets />
                         }
 
-                    </Nav>
-                </Navbar.Collapse>
                         {user ?
                             <NavDropdown
-                                className='py-1'
                                 title={
-                                <Image
-                                    src={img}
-                                    alt="UserName profile image"
-                                    roundedCircle
-                                    
-                                    style={{ width: '40px', height :"40px", border: "1px solid transparent", outline: "1px solid white" }}
-                                />
+                                    <Image
+                                        src={img}
+                                        alt="UserName profile image"
+                                        roundedCircle
+
+                                        style={{ width: '40px', height: "40px", border: "1px solid transparent", outline: "1px solid white" }}
+                                    />
                                 }
                                 align="end"
                             >
 
                                 <Link to="/account" className='py-3 btn w-100  text-start'>
-                                Profile
+                                    Profile
                                 </Link>
                                 <NavDropdown.Divider />
                                 <button className=' btn w-100  text-start m-0' onClick={sigout}>
@@ -92,6 +91,8 @@ function Header({ page }) {
                             </>
 
                         }
+                    </Nav>
+                </Navbar.Collapse>
             </div>
         </Navbar>
     )

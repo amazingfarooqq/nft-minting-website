@@ -60,7 +60,7 @@ export function IntegrationWallets() {
     }else {
       try {
         setError();
-        await changeNetwork({ networkName: 'polygon', setError });
+        // await changeNetwork({ networkName: 'polygon', setError });
         await activate(Injected);
         setMessage({message: "Wallet Connected", color: "success" , isMessage: true})
       } catch (error) {

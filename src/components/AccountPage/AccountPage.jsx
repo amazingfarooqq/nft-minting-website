@@ -3,7 +3,7 @@ import { useContextAPI } from '../../features/contextapi'
 import Header from '../Header/Header'
 
 const AccountPage = () => {
-  const { user, setUser } = useContextAPI()
+  const { user, setUser, yourJoinedUsers } = useContextAPI()
   return (
     <div>
       <Header />
@@ -42,7 +42,7 @@ const AccountPage = () => {
                 </div>
 
 
-                <div className="col-11 col-lg-10 mt-2 ">
+                {/* <div className="col-11 col-lg-10 mt-2 ">
                   <div style={{ fontWeight: "500" }}>Email</div>
 
                   <div className='row'>
@@ -56,7 +56,7 @@ const AccountPage = () => {
                     </div>
                   </div>
 
-                </div>
+                </div> */}
 
                 <div className="col-11 col-lg-10 mt-3">
                   <div style={{ fontWeight: "500" }} >YEM Balance</div>
@@ -67,9 +67,15 @@ const AccountPage = () => {
                   <div type="text" className='form-control form-control-lg  m-0 fs-15' style={{ backgroundColor: "rgba(0,0,255,0.2)" }}>0.00000</div>
                 </div>
 
-                <div className="col-11 col-lg-10 mt-3">
-                  <button className='w-100 btn btn-primary fs-5 my-3 p-3 rounded-pill'>Affiliate Link</button>
+                <div className="col-11 col-lg-10 mt-5">
+                  <div style={{ fontWeight: "500" }} >Your Affiliate Code</div>
+                  <div type="text" className='form-control form-control-lg  m-0 fs-15' style={{ backgroundColor: "rgba(0,0,255,0.2)" }}>{user?.owneraddress}</div>
                 </div>
+                <div className="col-11 col-lg-10 mt-1">
+                  <div style={{ fontWeight: "500" }} >Your Joined Users: ( {yourJoinedUsers?.length || 0} )</div>
+                  <div type="text" className='form-control form-control-lg  m-0 fs-15' style={{ backgroundColor: "rgba(0,0,255,0.2)" }}>{yourJoinedUsers?.map(item => ` ${item} ,`)}</div>
+                </div>
+
 
 
               </div>

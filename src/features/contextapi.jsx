@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { addDoc, collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { database } from "./firebase";
 import { ethers } from "ethers";
+import { contractabi, contractAddress } from "../contractinfo/contractdetails";
 
 
 const Context = createContext({});
@@ -10,14 +11,15 @@ export const useContextAPI = () => useContext(Context);
 
 export const ContextAPIProvider = ({ children }) => {
 
-    const { library, account } = useWeb3React()
+    const { library, account , active } = useWeb3React()
 
     const [signer, setSinger] = useState('')
     const [message, setMessage] = useState({ message: "", color: "", isMessage: false })
     const [usersData, setUsersData] = useState()
     const [user, setUser] = useState()
+    const [contract, setContract] = useState()
+    const [yourJoinedUsers, setYourJoinedUsers] = useState()
 
-    console.log('userrrrrrrrrrrrrrrrrr', user);
 
     const registerToCollection = (documentName, dataObject) => {
         return setDoc(doc(database, 'users', documentName), dataObject);
@@ -34,7 +36,23 @@ export const ContextAPIProvider = ({ children }) => {
             .then((res) => {
                 const users = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
                 setUsersData(users)
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const get_current_user = () => {
+        const dababaseRef = collection(database, "users");
+        getDocs(dababaseRef)
+            .then((res) => {
+                const users = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+                setUsersData(users)
                 const user = users.find(item => item.owneraddress === account)
+
+                if(user){
+                setMessage({ message: "You are Logged In.", isMessage: true, color: "success" })
+
+                }
                 setUser(user)
             }).catch((err) => {
                 console.log(err);
@@ -44,50 +62,35 @@ export const ContextAPIProvider = ({ children }) => {
     useEffect(() => {
         get_all_user_data()
     }, [])
-
-    // const fetchuser = async () => {
-    //     const dababaseRef = collection(database, "users");
-
-    //     getDocs(dababaseRef).then((res) => {
-    //         const data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-
-    //         const user = data.find(item => item.owneraddress === account)
-    //         setUser(user)
-
-    //         // navigate("/");
+    useEffect(() => {
+        if(active){
+            get_current_user()
+        }
+    }, [account])
 
 
-    //     }).catch((err) => {
-    //         console.log(err);
-    //     });
-    // }
-
-    const contractAddress = ""
-    const contractabi = ""
-
-    const Contract = new ethers.Contract(
-        contractAddress,
-        contractabi,
-        signer
-    );
 
     const fetchContract = async () => {
-        try {
-            console.log('RealEstateContract' , Contract);
-        } catch (error) {
-            
+        if (active) {
+
+            try {
+                const Contract = new ethers.Contract(contractAddress,contractabi,signer);
+                console.log('contract' , Contract);
+                setContract(Contract)
+                const joinedUsersWithYou = await Contract.yourJoinedUsers()
+                setYourJoinedUsers(joinedUsersWithYou)
+            } catch (error) {
+
+            }
         }
     }
 
     useEffect(() => {
-
-        // fetchuser()
         fetchContract()
     }, [account])
 
 
 
-    console.log('signer', signer);
     useMemo(() => {
         if (library !== undefined) {
             console.log("defined library");
@@ -99,7 +102,7 @@ export const ContextAPIProvider = ({ children }) => {
     }, [account]);
 
     return (
-        <Context.Provider value={{ signer, setSinger, message, setMessage, registerToCollection, updateSellerRequests, usersData, user, setUser}}>
+        <Context.Provider value={{ signer, setSinger, message, setMessage, registerToCollection, updateSellerRequests, usersData, user, setUser , contract , get_current_user , yourJoinedUsers}}>
             {children}
 
         </Context.Provider>

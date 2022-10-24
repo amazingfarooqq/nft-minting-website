@@ -10,20 +10,25 @@ import { IntegrationWallets } from '../Wallets/IntegrationWallets'
 const Signup = () => {
     const { active, account } = useWeb3React()
     const [userName, setUserName] = useState('')
+    const [affiliateCodeInput, setAffiliateCodeInput] = useState('')
 
     const [userInputStepDone, setUserInputStepDone] = useState(false)
     const [userAddressStepDone, setUserAddressStep] = useState(false)
 
-    const { registerToCollection, setMessage, usersData , fetchuser} = useContextAPI()
+    const [isLoading, setIsLoading] = useState(false)
+
+    const { registerToCollection, setMessage, usersData, fetchuser, contract, get_current_user } = useContextAPI()
 
 
     const usernamefunc = async () => {
 
-        
         if (!userName || userName.indexOf(" ") >= 0) {
             setMessage({ message: "Invalid Username!", isMessage: true, color: "danger" })
-        } else {
+        } else if(userName.length >= 30){
+            setMessage({ message: "Username must be less than 30 characters", isMessage: true, color: "danger" })
 
+        } else{
+            
             let isUserExistInDatabase = false;
 
             usersData?.map(item => {
@@ -61,22 +66,40 @@ const Signup = () => {
     }
 
     const signup = async () => {
-        if(!userName || userName.indexOf(" ") >= 0){
+        if (!userName || userName.indexOf(" ") >= 0 || userName.length >= 30) {
             setUserInputStepDone(false)
-        }else if(!account){
+            setMessage({ message: "Enter Username first", isMessage: true, color: "danger" })
+        } else if (!account) {
             setUserAddressStep(false)
-        }else {
-            registerToCollection(`${userName}-${account}`, { userName, owneraddress: account })
-            // fetchuser()
+            setMessage({ message: "First connect wallet!", isMessage: true, color: "danger" })
+
+        } else if (!affiliateCodeInput) {
+            setMessage({ message: "Enter affiliate code", isMessage: true, color: "danger" })
+        } else {
+            try {
+                setIsLoading(true)
+
+                const tx = await contract?.signUp(userName, affiliateCodeInput)
+                await tx.wait()
+                registerToCollection(`${userName}-${account}`, { userName, owneraddress: account, affiliateCode: affiliateCodeInput })
+
+                get_current_user()
+                setIsLoading(false)
+
+            } catch (error) {
+                setIsLoading(false)
+                setMessage({ message: error.reason || error.message, isMessage: true, color: "danger" })
+
+            }
         }
     }
-    
+
 
     return (
 
         <div>
             <Header />
-
+{isLoading && "Loading.."}
             <div className="container mt-4">
                 <div className="row justify-content-center">
                     <div className="col-md-6 col-lg-6">
@@ -88,7 +111,7 @@ const Signup = () => {
                             <ol className='py-0 my-0'>
                                 <li className={`${!userInputStepDone && 'fw-bold'}`}>Please input user name. {userName && `username: ${userName}`}</li>
                                 <li className={`${userInputStepDone && !account && !userAddressStepDone && 'fw-bold'}`}>Please connect your wallet.</li>
-                                <li className={`${userInputStepDone && active && userAddressStepDone && 'fw-bold'}`}>Click the continue.</li>
+                                <li className={`${userInputStepDone && active && userAddressStepDone && 'fw-bold'}`}>Provide affiliate code address and Sign up.</li>
                             </ol>
                         </div>
 
@@ -134,9 +157,21 @@ const Signup = () => {
 
 
                         {userInputStepDone && userAddressStepDone &&
-                            <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={signup}>
-                                Sign up
-                            </button>
+                            <>
+                                <div className='py-2'>
+                                    <div className='text-start'>Wallet Address</div>
+                                    <input
+                                        className="form-control p-2 rounded-pill form-control-md"
+                                        type="text"
+                                        value={affiliateCodeInput}
+                                        onChange={(e) => setAffiliateCodeInput(e.target.value)}
+                                        placeholder="Add Affiliate Code"
+                                    />
+                                </div>
+                                <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={signup}>
+                                    Sign up
+                                </button>
+                            </>
                         }
 
 
