@@ -67,7 +67,7 @@ const Signup = () => {
             setUserAddressStep(false)
         }else {
             registerToCollection(`${userName}-${account}`, { userName, owneraddress: account })
-            fetchuser()
+            // fetchuser()
         }
     }
     

@@ -2,6 +2,7 @@ import { useWeb3React } from "@web3-react/core";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { addDoc, collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { database } from "./firebase";
+import { ethers } from "ethers";
 
 
 const Context = createContext({});
@@ -31,7 +32,10 @@ export const ContextAPIProvider = ({ children }) => {
         const dababaseRef = collection(database, "users");
         getDocs(dababaseRef)
             .then((res) => {
-                setUsersData(res.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+                const users = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+                setUsersData(users)
+                const user = users.find(item => item.owneraddress === account)
+                setUser(user)
             }).catch((err) => {
                 console.log(err);
             });
@@ -41,25 +45,44 @@ export const ContextAPIProvider = ({ children }) => {
         get_all_user_data()
     }, [])
 
-    const fetchuser = async () => {
-        const dababaseRef = collection(database, "users");
+    // const fetchuser = async () => {
+    //     const dababaseRef = collection(database, "users");
 
-        getDocs(dababaseRef).then((res) => {
-            const data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    //     getDocs(dababaseRef).then((res) => {
+    //         const data = res.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
 
-            const user = data.find(item => item.owneraddress === account)
-            setUser(user)
+    //         const user = data.find(item => item.owneraddress === account)
+    //         setUser(user)
 
-            // navigate("/");
+    //         // navigate("/");
 
 
-        }).catch((err) => {
-            console.log(err);
-        });
+    //     }).catch((err) => {
+    //         console.log(err);
+    //     });
+    // }
+
+    const contractAddress = ""
+    const contractabi = ""
+
+    const Contract = new ethers.Contract(
+        contractAddress,
+        contractabi,
+        signer
+    );
+
+    const fetchContract = async () => {
+        try {
+            console.log('RealEstateContract' , Contract);
+        } catch (error) {
+            
+        }
     }
+
     useEffect(() => {
 
-        fetchuser()
+        // fetchuser()
+        fetchContract()
     }, [account])
 
 
@@ -76,7 +99,7 @@ export const ContextAPIProvider = ({ children }) => {
     }, [account]);
 
     return (
-        <Context.Provider value={{ signer, setSinger, message, setMessage, registerToCollection, updateSellerRequests, usersData, user, setUser , fetchuser}}>
+        <Context.Provider value={{ signer, setSinger, message, setMessage, registerToCollection, updateSellerRequests, usersData, user, setUser}}>
             {children}
 
         </Context.Provider>

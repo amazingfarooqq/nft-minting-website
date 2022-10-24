@@ -107,7 +107,7 @@ export function IntegrationWallets() {
               </div>
             </div>
 
-            <div
+            {/* <div
               className={`wallet_btn row  py-3 mx-1 px-4 my-2`}
               onClick={conToWalletConnect}
             >
@@ -119,7 +119,7 @@ export function IntegrationWallets() {
                   alt="Connect"
                 />
               </div>
-            </div>
+            </div> */}
       
           </div>
         </Modal.Body>
