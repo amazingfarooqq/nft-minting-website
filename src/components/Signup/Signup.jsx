@@ -24,11 +24,11 @@ const Signup = () => {
 
         if (!userName || userName.indexOf(" ") >= 0) {
             setMessage({ message: "Invalid Username!", isMessage: true, color: "danger" })
-        } else if(userName.length >= 30){
+        } else if (userName.length >= 30) {
             setMessage({ message: "Username must be less than 30 characters", isMessage: true, color: "danger" })
 
-        } else{
-            
+        } else {
+
             let isUserExistInDatabase = false;
 
             usersData?.map(item => {
@@ -99,7 +99,7 @@ const Signup = () => {
 
         <div>
             <Header />
-{isLoading && "Loading.."}
+            {isLoading && "Loading.."}
             <div className="container mt-4">
                 <div className="row justify-content-center">
                     <div className="col-md-6 col-lg-6">
