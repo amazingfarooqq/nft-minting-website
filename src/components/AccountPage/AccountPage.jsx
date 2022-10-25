@@ -4,19 +4,6 @@ import Header from '../Header/Header'
 
 const AccountPage = () => {
   const { user, setUser, yourJoinedUsers } = useContextAPI()
-  const [copyText, setcopyText] = useState('')
-
-  async function copyTargetText(e) {
-    try {
-      await navigator.clipboard.writeText(e.target.innerText);
-      setcopyText(`"${e.target.innerText}" copied to clipboard`)
-      setTimeout(() => {
-        setcopyText('')
-      }, 3000);
-      } catch (err) {
-        setcopyText(`Failed to copy : ${e.target.innerText}`)
-      }
-    }
 
   return (
     <div>
@@ -67,11 +54,9 @@ const AccountPage = () => {
 
                 <div className="col-11 col-lg-10 mt-5 " >
                   <div style={{ fontWeight: "500" }} >Your Affiliate Code</div>
-                  <button className='form-control btn form-control-lg  m-0 fs-15 py-3' style={{ backgroundColor: "rgba(255,0,0,0.2)", overflow: "hidden" }} onClick={copyTargetText} title="Copy to clipboard">{user?.owneraddress}</button>
+                  <div className='form-control  form-control-lg  m-0 fs-15 py-3' style={{ backgroundColor: "rgba(255,0,0,0.2)", overflow: "hidden" }} >{user?.owneraddress}</div>
                 </div>
-                {copyText &&
-                  <span  className="col-11 col-lg-10  ">{copyText}</span>
-                }
+              
                 <div className="col-11 col-lg-10 mt-1">
                   <div style={{ fontWeight: "500" }} >Users used your affiliate code: ( {yourJoinedUsers?.length || 0} )</div>
                   <div type="text" className='form-control form-control-lg  m-0 fs-15' style={{ backgroundColor: "rgba(0,0,255,0.2)" }}>{yourJoinedUsers?.join(", ")}</div>

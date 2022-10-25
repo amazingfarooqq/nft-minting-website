@@ -4,6 +4,7 @@ import { addDoc, collection, doc, getDocs, setDoc, updateDoc } from "firebase/fi
 import { database } from "./firebase";
 import { ethers } from "ethers";
 import { contractabi, contractAddress } from "../contractinfo/contractdetails";
+import { formatEther, parseEther } from "ethers/lib/utils";
 
 
 const Context = createContext({});
@@ -75,8 +76,10 @@ export const ContextAPIProvider = ({ children }) => {
 
             try {
                 const Contract = new ethers.Contract(contractAddress,contractabi,signer);
-                console.log('contract' , Contract);
                 setContract(Contract)
+                console.log('contract' , Contract);
+                const balanceof = await Contract?.balanceOf(account)
+                console.log('balanceof' , parseInt(balanceof._hex, 16));
                 const joinedUsersWithYou = await Contract.yourJoinedUsers()
                 setYourJoinedUsers(joinedUsersWithYou)
             } catch (error) {

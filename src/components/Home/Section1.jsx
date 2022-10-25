@@ -20,12 +20,12 @@ const Section1 = () => {
           const totalamount = costOfToken * amount
           const tx = await contract?.mint(amount, { value: ethers.utils.parseEther(`${totalamount}`) })
           await tx.wait()
-          setIsLoading(true)
+          setIsLoading(false)
 
           setMessage({ isMessage: true, message: "Mint done!", color: "success" })
 
         } catch (error) {
-          setIsLoading(true)
+          setIsLoading(false)
 
           setMessage({ isMessage: true, message: error.reason || error.data?.message || error.message, color: "danger" })
         }
