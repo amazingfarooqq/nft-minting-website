@@ -4,33 +4,35 @@ import { useContextAPI } from '../../features/contextapi'
 import Header from '../Header/Header'
 
 const AccountPage = () => {
-  const { user, setUser, yourJoinedUsers, updateSellerRequests, setMessage, YEMPernum, setYEMPernum } = useContextAPI()
+  const { user, setUser, yourJoinedUsers, updateSellerRequests, setMessage  } = useContextAPI()
 
   const [isLoading, setIsLoading] = useState(false)
+  const [YEMPernum, setYEMPernum] = useState(null)
+  const [updatedYEM, setUpdatedYEM] = useState(null)
 
   const { account } = useWeb3React()
 
   useEffect(() => {
-    setYEMPernum(user?.YEMPernum || 0)
-  }, [account])
+    setYEMPernum(0)
+    setUpdatedYEM(null)
+  },[user])
 
   const YEMPernumFunc = async () => {
     if (YEMPernum && YEMPernum > 0) {
       setIsLoading(true)
 
       console.log(user.id);
-      await updateSellerRequests(user.id, { YEMPernum }).then(res => {
+      try {
+        const txtofirebase = await updateSellerRequests(user.id, { YEMPernum })
+        console.log('txtofirebase' , txtofirebase);
         setMessage({ message: "Per Num Added!", isMessage: true, color: "success" })
+        setUpdatedYEM(YEMPernum)
         setIsLoading(false)
-
-
-      }).catch(err => {
-        console.log(err);
+      } catch (error) {
+        console.log('err', error);
         setMessage({ message: "Error, Please Refresh and try again.", isMessage: true, color: "danger" })
         setIsLoading(false)
-
-
-      })
+      }
 
     } else {
       setMessage({ message: "invalid YEM Pernum!", isMessage: true, color: "danger" })
@@ -64,12 +66,15 @@ const AccountPage = () => {
                   <div className='row'>
                     <div className="col-12">
                       <div className="input-group">
+                        <div className="input-group-addon btn btn-dark" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                          {updatedYEM || user?.YEMPernum || 0}
+                        </div>
                         <input type="number" className="form-control fs-15" value={YEMPernum} onChange={(e) => setYEMPernum(e.target.value)} placeholder='Ex: 00000' />
                         <div className="input-group-append">
                           {isLoading ?
-                          <span className="input-group-text btn btn-primary rounded-pill m-1 fs-5 px-4 disabled">Processing..</span>
-                          :
-                          <span className="input-group-text btn btn-primary rounded-pill m-1 fs-5 px-4" onClick={YEMPernumFunc}>Save</span>
+                            <span className="input-group-text btn btn-primary rounded-pill m-1 fs-5 px-4 disabled">Processing..</span>
+                            :
+                            <span className="input-group-text btn btn-primary rounded-pill m-1 fs-5 px-4" onClick={YEMPernumFunc}>Save</span>
                           }
                         </div>
                       </div>

@@ -12,6 +12,7 @@ const Section1 = () => {
 
 
   const mintFunc = async () => {
+
     if (user) {
       if (amount > 0) {
         setIsLoading(true)
@@ -30,7 +31,6 @@ const Section1 = () => {
           setMessage({ isMessage: true, message: error.reason || error.data?.message || error.message, color: "danger" })
         }
       } else {
-
         setMessage({ isMessage: true, message: "Invalid Input", color: "danger" })
       }
     } else {

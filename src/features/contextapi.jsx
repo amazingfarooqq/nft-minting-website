@@ -20,7 +20,6 @@ export const ContextAPIProvider = ({ children }) => {
     const [user, setUser] = useState()
     const [contract, setContract] = useState()
     const [yourJoinedUsers, setYourJoinedUsers] = useState()
-    const [YEMPernum, setYEMPernum] = useState()
 
 
     const registerToCollection = (documentName, dataObject) => {
@@ -106,11 +105,10 @@ export const ContextAPIProvider = ({ children }) => {
     const sigout = () => {
         deactivate()
         setUser()
-        setYEMPernum()
     }
 
     return (
-        <Context.Provider value={{ signer, setSinger, message, setMessage, registerToCollection, updateSellerRequests, usersData, user, setUser, contract, get_current_user, yourJoinedUsers , YEMPernum , setYEMPernum , sigout}}>
+        <Context.Provider value={{ signer, setSinger, message, setMessage, registerToCollection, updateSellerRequests, usersData, user, setUser, contract, get_current_user, yourJoinedUsers ,  sigout}}>
             {children}
 
         </Context.Provider>

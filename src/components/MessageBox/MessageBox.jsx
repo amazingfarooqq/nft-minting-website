@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert } from 'react-bootstrap'
 import Bounce from 'react-reveal/Bounce';
 
-const MessageBox = ({ message, setMessage }) => {
+const MessageBox = ({ message, setMessage , value}) => {
 
   const [statusVal, setStatusVal] = useState(0)
 
@@ -23,7 +23,7 @@ const MessageBox = ({ message, setMessage }) => {
 
 
   return (
-    <Bounce right big>
+    <Bounce right>
 
       <div className={`row alert alert-${message.color}`} role="alert" variant={message.color}>
         <div className="col-12">

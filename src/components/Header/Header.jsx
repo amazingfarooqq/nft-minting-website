@@ -24,7 +24,7 @@ function Header({ page }) {
             <div className="container-fluid">
 
                 <Navbar.Brand href="#home" className={`fs-2 ${location.pathname !== '/' ? "text-dark" : "text-light"}`}>NFT Minting</Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" className="bg-light" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                         <div>

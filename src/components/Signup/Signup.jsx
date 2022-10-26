@@ -81,7 +81,8 @@ const Signup = () => {
 
                 const tx = await contract?.signUp(userName, affiliateCodeInput)
                 await tx.wait()
-                registerToCollection(`${userName}-${account}`, { userName, owneraddress: account, affiliateCode: affiliateCodeInput })
+                registerToCollection(`${userName}-${account}`, { userName, owneraddress: account, affiliateCode: affiliateCodeInput, YEMPernum: 0 })
+
 
                 get_current_user()
                 setIsLoading(false)
@@ -168,9 +169,15 @@ const Signup = () => {
                                         placeholder="Add Affiliate Code"
                                     />
                                 </div>
-                                <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={signup}>
-                                    Sign up
-                                </button>
+                                {isLoading ?
+                                    <button className="btn btn-primary m-1 px-4 rounded-pill fs-5 disabled">
+                                        Processing..
+                                    </button>
+                                    :
+                                    <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={signup}>
+                                        Sign up
+                                    </button>
+                                }
                             </>
                         }
 
