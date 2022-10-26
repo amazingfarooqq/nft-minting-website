@@ -14,7 +14,9 @@ function App() {
   return (
     <div className="App">
       {message?.isMessage &&
-        <MessageBox message={message} setMessage={setMessage} />
+       <div className="container-fluid" style={{ position: 'fixed', top: '50px', right: '20px', zIndex: '111111', width: "300px" }}>
+         <MessageBox message={message} setMessage={setMessage} />
+       </div>
       }
 
       <BrowserRouter>

@@ -32,7 +32,7 @@ const Signup = () => {
             let isUserExistInDatabase = false;
 
             usersData?.map(item => {
-                if (item.userName === userName) {
+                if (item.userName?.toUpperCase() === userName.toUpperCase()) {
                     isUserExistInDatabase = true
                 }
             })

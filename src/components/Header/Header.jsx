@@ -9,17 +9,14 @@ import img from "./../../imgs/dp-sample-img.jpg"
 
 function Header({ page }) {
 
-    const { active, account, deactivate } = useWeb3React()
+    const { active, account } = useWeb3React()
 
-    const { user, setUser  } = useContextAPI()
+    const { user  , sigout} = useContextAPI()
 
     const location = useLocation()
 
 
-    const sigout = () => {
-        deactivate()
-        setUser()
-    }
+
 
 
     return (

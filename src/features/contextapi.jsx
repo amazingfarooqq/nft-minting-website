@@ -12,7 +12,7 @@ export const useContextAPI = () => useContext(Context);
 
 export const ContextAPIProvider = ({ children }) => {
 
-    const { library, account , active } = useWeb3React()
+    const { library, account, active , deactivate } = useWeb3React()
 
     const [signer, setSinger] = useState('')
     const [message, setMessage] = useState({ message: "", color: "", isMessage: false })
@@ -20,6 +20,7 @@ export const ContextAPIProvider = ({ children }) => {
     const [user, setUser] = useState()
     const [contract, setContract] = useState()
     const [yourJoinedUsers, setYourJoinedUsers] = useState()
+    const [YEMPernum, setYEMPernum] = useState()
 
 
     const registerToCollection = (documentName, dataObject) => {
@@ -50,8 +51,8 @@ export const ContextAPIProvider = ({ children }) => {
                 setUsersData(users)
                 const user = users.find(item => item.owneraddress === account)
 
-                if(user){
-                setMessage({ message: "You are Logged In.", isMessage: true, color: "success" })
+                if (user) {
+                    setMessage({ message: "You are Logged In.", isMessage: true, color: "success" })
 
                 }
                 setUser(user)
@@ -59,27 +60,16 @@ export const ContextAPIProvider = ({ children }) => {
                 console.log(err);
             });
     }
-
-    useEffect(() => {
-        get_all_user_data()
-    }, [])
-    useEffect(() => {
-        if(active){
-            get_current_user()
-        }
-    }, [account])
-
-
-
+    
     const fetchContract = async () => {
         if (active) {
 
             try {
-                const Contract = new ethers.Contract(contractAddress,contractabi,signer);
+                const Contract = new ethers.Contract(contractAddress, contractabi, signer);
                 setContract(Contract)
-                console.log('contract' , Contract);
+                console.log('Contract owner' , await Contract?.owner())
+                console.log('address' , account)
                 const balanceof = await Contract?.balanceOf(account)
-                console.log('balanceof' , parseInt(balanceof._hex, 16));
                 const joinedUsersWithYou = await Contract.yourJoinedUsers()
                 setYourJoinedUsers(joinedUsersWithYou)
             } catch (error) {
@@ -89,6 +79,15 @@ export const ContextAPIProvider = ({ children }) => {
     }
 
     useEffect(() => {
+        get_all_user_data()
+    }, [])
+    useEffect(() => {
+        if (active) {
+            get_current_user()
+        }
+    }, [account])
+
+    useEffect(() => {
         fetchContract()
     }, [account])
 
@@ -96,16 +95,22 @@ export const ContextAPIProvider = ({ children }) => {
 
     useMemo(() => {
         if (library !== undefined) {
-            console.log("defined library");
+            console.log("library exist");
 
             setSinger(library?.getSigner(account));
         } else {
-            console.log("undefined library");
+            console.log("library errror");
         }
     }, [account]);
 
+    const sigout = () => {
+        deactivate()
+        setUser()
+        setYEMPernum()
+    }
+
     return (
-        <Context.Provider value={{ signer, setSinger, message, setMessage, registerToCollection, updateSellerRequests, usersData, user, setUser , contract , get_current_user , yourJoinedUsers}}>
+        <Context.Provider value={{ signer, setSinger, message, setMessage, registerToCollection, updateSellerRequests, usersData, user, setUser, contract, get_current_user, yourJoinedUsers , YEMPernum , setYEMPernum , sigout}}>
             {children}
 
         </Context.Provider>

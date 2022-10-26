@@ -92,3 +92,34 @@ body {
 .wallet_img {
   width: 50px;
 }
+
+
+/* alert */
+
+/* !important are just used to overide the bootstrap css in the snippet */
+
+
+/* .close {
+  position: absolute !important;
+  right: 15px !important;
+} */
+
+.progress {
+  margin-bottom: 0 !important;
+  bottom: 0px !important;
+  left: 0px !important;
+  width: 100% !important;
+  height: 5px !important;
+  position: absolute;
+  border-radius: 0;
+}
+
+.bg-danger {
+  background-color: red !important;
+}
+.bg-success {
+  background-color: green !important;
+}
+.bg-warning {
+  background-color: yellow !important;
+}

@@ -1,9 +1,41 @@
-import React, { useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
+import React, { useEffect, useState } from 'react'
 import { useContextAPI } from '../../features/contextapi'
 import Header from '../Header/Header'
 
 const AccountPage = () => {
-  const { user, setUser, yourJoinedUsers } = useContextAPI()
+  const { user, setUser, yourJoinedUsers, updateSellerRequests, setMessage, YEMPernum, setYEMPernum } = useContextAPI()
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { account } = useWeb3React()
+
+  useEffect(() => {
+    setYEMPernum(user?.YEMPernum || 0)
+  }, [account])
+
+  const YEMPernumFunc = async () => {
+    if (YEMPernum && YEMPernum > 0) {
+      setIsLoading(true)
+
+      console.log(user.id);
+      await updateSellerRequests(user.id, { YEMPernum }).then(res => {
+        setMessage({ message: "Per Num Added!", isMessage: true, color: "success" })
+        setIsLoading(false)
+
+
+      }).catch(err => {
+        console.log(err);
+        setMessage({ message: "Error, Please Refresh and try again.", isMessage: true, color: "danger" })
+        setIsLoading(false)
+
+
+      })
+
+    } else {
+      setMessage({ message: "invalid YEM Pernum!", isMessage: true, color: "danger" })
+    }
+  }
 
   return (
     <div>
@@ -32,9 +64,13 @@ const AccountPage = () => {
                   <div className='row'>
                     <div className="col-12">
                       <div className="input-group">
-                        <input type="text" className="form-control fs-15" placeholder='Ex: 00000' />
+                        <input type="number" className="form-control fs-15" value={YEMPernum} onChange={(e) => setYEMPernum(e.target.value)} placeholder='Ex: 00000' />
                         <div className="input-group-append">
-                          <span className="input-group-text btn btn-primary rounded-pill m-1 fs-5 px-4">Save</span>
+                          {isLoading ?
+                          <span className="input-group-text btn btn-primary rounded-pill m-1 fs-5 px-4 disabled">Processing..</span>
+                          :
+                          <span className="input-group-text btn btn-primary rounded-pill m-1 fs-5 px-4" onClick={YEMPernumFunc}>Save</span>
+                          }
                         </div>
                       </div>
                     </div>
@@ -56,7 +92,7 @@ const AccountPage = () => {
                   <div style={{ fontWeight: "500" }} >Your Affiliate Code</div>
                   <div className='form-control  form-control-lg  m-0 fs-15 py-3' style={{ backgroundColor: "rgba(255,0,0,0.2)", overflow: "hidden" }} >{user?.owneraddress}</div>
                 </div>
-              
+
                 <div className="col-11 col-lg-10 mt-1">
                   <div style={{ fontWeight: "500" }} >Users used your affiliate code: ( {yourJoinedUsers?.length || 0} )</div>
                   <div type="text" className='form-control form-control-lg  m-0 fs-15' style={{ backgroundColor: "rgba(0,0,255,0.2)" }}>{yourJoinedUsers?.join(", ")}</div>
