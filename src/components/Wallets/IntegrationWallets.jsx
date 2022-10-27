@@ -62,7 +62,15 @@ export function IntegrationWallets() {
         setError();
         // await changeNetwork({ networkName: 'polygon', setError });
         await activate(Injected);
-        setMessage({message: "Wallet Connected", color: "success" , isMessage: true})
+
+        window.ethereum.request({ method: "net_version" }).then((chainID) => {
+          if(chainID == 137 || chainID == 80001){
+            setMessage({message: "Wallet Connected", color: "success" , isMessage: true})
+          }else {
+            setMessage({message: "Change Network", color: "danger" , isMessage: true})
+            
+          }
+        });
       } catch (error) {
         console.error('error');
         setMessage({message: "Wallet Connection Error.", color: "danger" , isMessage: true})

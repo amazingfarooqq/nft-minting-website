@@ -9,23 +9,23 @@ import img4 from './../../imgs/section2imgs/4.png'
 
 const obj = [
   {
-    title: "Heading1",
-    desc: "Lorem ipsum dolor sit consectetur adipisicing elit. Alias amet deleniti et fugit iusto nesciunt.",
+    title: "Get your invitation",
+    desc: "Ask for an invitation link so that you can start this exciting journey",
     img: img1
   },
   {
-    title: "Heading2",
-    desc: "Lorem ipsum dolor sit consectetur adipisicing elit. Alias amet deleniti et fugit iusto nesciunt.",
+    title: "Connect your wallet",
+    desc: "Connect your wallet and finish very fast in two steps your registration",
     img: img2
   },
   {
-    title: "Heading2",
-    desc: "Lorem ipsum dolor sit consectetur adipisicing elit. Alias amet deleniti et fugit iusto nesciunt.",
+    title: "Start your journey",
+    desc: "Start your journey with this wonderful community and buy great NFTs",
     img: img3
   },
   {
-    title: "Heading2",
-    desc: "Lorem ipsum dolor sit consectetur adipisicing elit. Alias amet deleniti et fugit iusto nesciunt.",
+    title: "Earn money with us",
+    desc: "Earn money with great NFTs and with inviting other people for our great platform",
     img: img4
   },
 ]
@@ -57,7 +57,7 @@ const Section2 = () => {
                     <img src={item.img} alt="" />
                   </div>
                   <div className="px-3 text-center pb-3">
-                    <h4>{item.title}</h4>
+                    <h4 className='fs-4'>{item.title}</h4>
                     <p className="font-weight-light my-3">{item.desc}</p>
                   </div>
                 </div>
