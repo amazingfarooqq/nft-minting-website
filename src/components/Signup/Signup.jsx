@@ -17,7 +17,7 @@ const Signup = () => {
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const { registerToCollection, setMessage, usersData, fetchuser, contract, get_current_user } = useContextAPI()
+    const { registerToCollection, setMessage, usersData, fetchuser, contract, get_current_user ,  setSponsorName} = useContextAPI()
 
 
     const usernamefunc = async () => {
@@ -83,6 +83,8 @@ const Signup = () => {
                 await tx.wait()
                 registerToCollection(`${userName}-${account}`, { userName, owneraddress: account, affiliateCode: affiliateCodeInput, YEMPernum: 0 })
 
+                const sponsor = await contract?.getSponsor()
+                setSponsorName(sponsor)
 
                 get_current_user()
                 setIsLoading(false)

@@ -4,7 +4,7 @@ import { useContextAPI } from '../../features/contextapi'
 import Header from '../Header/Header'
 
 const AccountPage = () => {
-  const { user, setUser, yourJoinedUsers, updateSellerRequests, setMessage  } = useContextAPI()
+  const { user, setUser, yourJoinedUsers, updateSellerRequests, setMessage , sponsorName  } = useContextAPI()
 
   const [isLoading, setIsLoading] = useState(false)
   const [YEMPernum, setYEMPernum] = useState(null)
@@ -92,11 +92,20 @@ const AccountPage = () => {
                   <div style={{ fontWeight: "500" }} >Matic Balance</div>
                   <div type="text" className='form-control form-control-lg  m-0 fs-15' style={{ backgroundColor: "rgba(0,0,255,0.2)" }}>0.00000</div>
                 </div>
+                <div className="col-11 col-lg-10 mt-5">
+                  <div style={{ fontWeight: "500" }} >Your Sponser</div>
+                  <div type="text" className='form-control form-control-lg  m-0 fs-15' style={{ backgroundColor: "rgba(0,0,255,0.2)" }}>{sponsorName}</div>
+                </div>
 
-                <div className="col-11 col-lg-10 mt-5 " >
+                <div className="col-11 col-lg-10 mt-1">
+                  <div style={{ fontWeight: "500" }} >Your Affiliate Code</div>
+                  <div type="text" className='form-control form-control-lg  m-0 fs-15' style={{ backgroundColor: "rgba(0,0,255,0.2)" }}>{user?.owneraddress}</div>
+                </div>
+                
+                {/* <div className="col-11 col-lg-10 mt-1 " >
                   <div style={{ fontWeight: "500" }} >Your Affiliate Code</div>
                   <div className='form-control  form-control-lg  m-0 fs-15 py-3' style={{ backgroundColor: "rgba(255,0,0,0.2)", overflow: "hidden" }} >{user?.owneraddress}</div>
-                </div>
+                </div> */}
 
                 <div className="col-11 col-lg-10 mt-1">
                   <div style={{ fontWeight: "500" }} >Users used your affiliate code: ( {yourJoinedUsers?.length || 0} )</div>

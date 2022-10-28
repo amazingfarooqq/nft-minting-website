@@ -19,7 +19,9 @@ export const ContextAPIProvider = ({ children }) => {
     const [usersData, setUsersData] = useState()
     const [user, setUser] = useState()
     const [contract, setContract] = useState()
+
     const [yourJoinedUsers, setYourJoinedUsers] = useState()
+    const [sponsorName, setSponsorName] = useState('')
 
 
     const registerToCollection = (documentName, dataObject) => {
@@ -66,10 +68,12 @@ export const ContextAPIProvider = ({ children }) => {
             try {
                 const Contract = new ethers.Contract(contractAddress, contractabi, signer);
                 setContract(Contract)
+                console.log('getSponsor' , await Contract?.getSponsor())
                 console.log('Contract owner' , await Contract?.owner())
-                console.log('address' , account)
-                const balanceof = await Contract?.balanceOf(account)
+                const sponsor = await Contract?.getSponsor()
                 const joinedUsersWithYou = await Contract.yourJoinedUsers()
+
+                setSponsorName(sponsor)
                 setYourJoinedUsers(joinedUsersWithYou)
             } catch (error) {
 
@@ -108,7 +112,7 @@ export const ContextAPIProvider = ({ children }) => {
     }
 
     return (
-        <Context.Provider value={{ signer, setSinger, message, setMessage, registerToCollection, updateSellerRequests, usersData, user, setUser, contract, get_current_user, yourJoinedUsers ,  sigout}}>
+        <Context.Provider value={{ signer, setSinger, message, setMessage, registerToCollection, updateSellerRequests, usersData, user, setUser, contract, get_current_user, yourJoinedUsers ,  sigout , sponsorName , setSponsorName }}>
             {children}
 
         </Context.Provider>

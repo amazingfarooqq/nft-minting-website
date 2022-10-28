@@ -9,21 +9,25 @@ import img4 from './../../imgs/section2imgs/4.png'
 
 const obj = [
   {
+    id: 1,
     title: "Get your invitation",
     desc: "Ask for an invitation link so that you can start this exciting journey",
     img: img1
   },
   {
+    id: 2,
     title: "Connect your wallet",
     desc: "Connect your wallet and finish very fast in two steps your registration",
     img: img2
   },
   {
+    id: 3,
     title: "Start your journey",
     desc: "Start your journey with this wonderful community and buy great NFTs",
     img: img3
   },
   {
+    id: 4,
     title: "Earn money with us",
     desc: "Earn money with great NFTs and with inviting other people for our great platform",
     img: img4
@@ -42,7 +46,7 @@ const Section2 = () => {
           <div className="row">
             {obj?.map(item => {
               return (
-                <div className="col-md-4 col-lg-3">
+                <div key ={item.id} className="col-md-4 col-lg-3">
                 <div className="bg-light position-relative px-3 my-5">
                   <div
                     className="fw-bold circle  text-white rounded-circle d-flex align-items-center justify-content-center mx-auto position-relative border border-white"

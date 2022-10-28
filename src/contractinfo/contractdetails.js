@@ -1,4 +1,4 @@
-export const contractAddress = "0xAF1c2d8a60a163a4F47faA745EB418F4e9Ca99c2"
+export const contractAddress = "0xF307f542af989d3dE8069Ab9A86F3dAA3bBdC53C"
 export const contractabi = [
 	{
 		"inputs": [
@@ -396,6 +396,19 @@ export const contractabi = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getSponsor",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -559,45 +572,6 @@ export const contractabi = [
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "seeYourUsers",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "username",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "uAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "bool",
-				"name": "getCom",
-				"type": "bool"
-			},
-			{
-				"internalType": "address",
-				"name": "thetopone",
-				"type": "address"
-			},
-			{
-				"internalType": "bool",
-				"name": "signedUp",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
