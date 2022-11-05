@@ -65,7 +65,7 @@ const Signup = () => {
 
     }
 
-    const signup = async () => {
+    const CodeANDSignup = async () => {
         if (!userName || userName.indexOf(" ") >= 0 || userName.length >= 30) {
             setUserInputStepDone(false)
             setMessage({ message: "Enter Username first", isMessage: true, color: "danger" })
@@ -81,7 +81,7 @@ const Signup = () => {
 
                 const tx = await contract?.signUp(userName, affiliateCodeInput)
                 await tx.wait()
-                registerToCollection(`${userName}-${account}`, { userName, owneraddress: account, affiliateCode: affiliateCodeInput, YEMPernum: 0 })
+                registerToCollection(`${userName}-${account}`, { userName, owneraddress: account, SponserAffiliateCode: affiliateCodeInput, YEMPernum: 0 })
 
                 const sponsor = await contract?.getSponsor()
                 setSponsorName(sponsor)
@@ -175,7 +175,7 @@ const Signup = () => {
                                         Processing..
                                     </button>
                                     :
-                                    <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={signup}>
+                                    <button className="btn btn-primary m-1 px-4 rounded-pill fs-5" onClick={CodeANDSignup}>
                                         Sign up
                                     </button>
                                 }
